@@ -1,0 +1,52 @@
+Practical Task
+
+You should implement Web application to automate work of online shop. Resulting application should contain SQL script for database creation and its population with sample data, as well as archive with codebase. Implementation correctness should be proven by unit tests.
+
+Technology specification
+
+Back-end is implemented on Java
+
+Back-end interacts with database and well as with UI with RESTful API.
+
+Maven is used as build tool.
+
+Spring MVC is used for realisation of REST services.
+
+UI implementation is optional.
+
+Database specification
+
+Table: Product
+Columns: Name, Price
+
+Table: Purchase
+Columns: Product, Quantity, Purchase Date
+
+
+RESTful API specification
+
+Application contains 2 services:
+
+POST. Adds purchase. Takes JSON with the list of products and their quantity. Saves information about purchase in database. JSON example:
+
+{
+"data": [{
+"product": "prod1",
+"count": 10,
+"sum": 1000
+}
+]
+}
+
+GET. Returns annual purchase report. Returns JSON with information about purchases registered for a period of N months starting from current date. N is passed as input parameter in GET request, i.e. 1, 3, 6. Resulting JSON should contain only products with registered purchases. JSON example:
+
+{
+"data": [{
+"product": "prod1",
+"count": 10,
+"sum": 1000
+}, {
+"product": "prod2",
+"count": 0,
+"sum": 0
+}]
