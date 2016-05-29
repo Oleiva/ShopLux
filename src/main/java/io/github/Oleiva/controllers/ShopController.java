@@ -3,12 +3,17 @@ package io.github.Oleiva.controllers;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import io.github.Oleiva.dto.pojo.ProductListPojo;
 import io.github.Oleiva.dto.pojo.ResponsePojo;
+import io.github.Oleiva.jpa.ProductJpa;
+import io.github.Oleiva.services.ProductService;
 
 /**
  * Created by Oleh Ivashko on 27.05.2016.
@@ -19,63 +24,43 @@ import io.github.Oleiva.dto.pojo.ResponsePojo;
 public class ShopController {
     public final Logger logger = Logger.getLogger(this.getClass());
 
-//
-//    @Autowired
-//    private OrdersDao ordersDao;
-//
-//    @Autowired
-//    private CustomersDao customersDao;
-//
-//    @Autowired
-//    private ItemsDao itemsDao;
-//
-//    @Autowired
-//    private ShippingAddressesDao shippingAddressesDao;
-//
-//    @Autowired
-//    private ItemsService itemsService;
-//
-//    @Autowired
-//    private CustomersService customersService;
-//
-//    @Autowired
-//    private OrdersService ordersService;
+    @Autowired
+    ProductJpa productJpa;
 
+    @Autowired
+    ProductService productService;
 
+    public static String success = "# Products have been successfully added";
+    public static String error = "# Error with adding a List of Products";
 
-//    @RequestMapping(value="add/",method = RequestMethod.POST)
-//    @ResponseBody
-//    public List<OrdersEntity> getAll() {
-//        return ordersDao.findAll();
-//    }
-
-    @RequestMapping(value="/add/{product}/{count}/{sum}",method = RequestMethod.POST)
+    @RequestMapping(value = "/addItem", method = RequestMethod.POST)
     @ResponseBody
-    public ResponsePojo  addItemToNewOrder(@PathVariable(value = "product")   String product,
-                                           @PathVariable(value = "count") long count,
-                                           @PathVariable(value = "sum")   long sum,
-                                           ResponsePojo responsePojo){
+    public ResponsePojo addItemToNewOrder(@RequestBody ProductListPojo productListPojo,ResponsePojo responsePojo) {
+
+        try {
+            productService.addListOfProduct(productListPojo);
+                logger.info(productListPojo.getData());
+                logger.info(productListPojo.getData().size());
+            responsePojo.setMessage(success);
+                logger.info(success);
+
+        } catch (Exception ex) {
+            logger.isTraceEnabled();
+            responsePojo.setMessage(error);
+        }
 
         return responsePojo;
     }
 
-    @RequestMapping(value="/viev/{monthsNum}",method = RequestMethod.GET)
+
+    @RequestMapping(value = "/viev/{monthsNum}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponsePojo  vievAll(@PathVariable(value = "monthsNum")   String product,
+    public ResponsePojo vievAll(@PathVariable(value = "monthsNum") String product,
 //                                           @PathVariable(value = "count") long count,
 //                                           @PathVariable(value = "sum")   long sum,
-                                           ResponsePojo responsePojo){
-
-
-
-
+                                ResponsePojo responsePojo) {
 
         return responsePojo;
     }
-
-
-
-
-
 
 }

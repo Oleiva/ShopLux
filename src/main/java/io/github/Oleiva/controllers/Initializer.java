@@ -39,7 +39,7 @@ public class Initializer {
 //                                          ProductListPojo productListPojo,
                                           ProductPojo productPojo){
 
-//        productService.addOneProduct(productListPojo);
+//        productService.addListOfProduct(productListPojo);
 
 
 //        return responsePojo;

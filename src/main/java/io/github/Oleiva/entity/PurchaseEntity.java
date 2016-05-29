@@ -27,11 +27,11 @@ public class PurchaseEntity {
 
 
     @NotNull
-    @Column(unique=true, name = "PRODUCT")
+    @Column(unique=false, name = "PRODUCT")
     private String Product;
 
     @NotNull
-    @Column(unique=true, name = "QUANTITY")
+    @Column(unique=false, name = "QUANTITY")
     private long Quantity;
 
 //    @NotNull
@@ -42,12 +42,10 @@ public class PurchaseEntity {
 //    private LocalDate orderDate;
 
 
-    public PurchaseEntity(String product, long quantity) {
+    public PurchaseEntity(String product, long quantity, LocalDate purchaseDate) {
         Product = product;
         Quantity = quantity;
-        this.purchaseDate = LocalDate.now();
-//        this.purchaseDate = purchaseDate;
-
+        this.purchaseDate = purchaseDate;
     }
 
     public PurchaseEntity(long ID) {

@@ -5,6 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.List;
+
+import io.github.Oleiva.dto.pojo.ProductListPojo;
+import io.github.Oleiva.dto.pojo.ProductPojo;
 import io.github.Oleiva.entity.PurchaseEntity;
 import io.github.Oleiva.jpa.PurchaseJpa;
 
@@ -21,23 +26,38 @@ public class ProductServiceImpl implements ProductService{
     PurchaseJpa purchaseJpa;
 
 
-//    String product;
-//    long count;
-//    long sum;
-//
-//    @Override
-//    public void addOneProduct(ProductListPojo productListPojo){
-//
+    @Override
+//    public void addListOfProduct(ProductListPojo productListPojo){
+    public void addListOfProduct(ProductListPojo productListPojo){
+
 //        PurchaseEntity purchaseEntity = new PurchaseEntity();
+
+
+
+
+
+//        private List<ProductPojo> data = new ArrayList<ProductPojo>();
+
+        List<ProductPojo> productPojoList = productListPojo.getData();
+
 //
-//        purchaseEntity.setProduct(productListPojo.getProduct());
-//        purchaseEntity.setQuantity(productListPojo.getCount());
-//
-////        Проверка на сумму TODO
-//
+
+        productPojoList.forEach(productPojo -> {
+            PurchaseEntity purchaseEntity = new PurchaseEntity();
+        purchaseEntity.setProduct(productPojo.getProduct());
+        purchaseEntity.setQuantity(productPojo.getCount());
+        purchaseEntity.setPurchaseDate(LocalDate.now());
+
+            purchaseJpa.saveAndFlush(purchaseEntity);
+            System.out.print(purchaseEntity);
+        });
+
+
 //        purchaseJpa.saveAndFlush(purchaseEntity);
-//
-//    }
+//        purchaseJpa.flush();
+
+    }
+
 
 
 
