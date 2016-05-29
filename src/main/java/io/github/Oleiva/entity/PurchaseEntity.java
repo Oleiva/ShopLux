@@ -1,5 +1,7 @@
 package io.github.Oleiva.entity;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
 
 /**
  * Created by Oleh Ivashko on 27.05.2016.
@@ -20,7 +23,7 @@ public class PurchaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long ID;
 
-//    Product, Quantity, Purchase Date
+//    Product, Quantity, PurchaseJpa Date
 
 
     @NotNull
@@ -29,16 +32,22 @@ public class PurchaseEntity {
 
     @NotNull
     @Column(unique=true, name = "QUANTITY")
-    private String Quantity;
+    private long Quantity;
 
-    @NotNull
-    @Column(unique=true, name = "PURCHASE_DATE")
-    private String PurchaseDate;
+//    @NotNull
+    @Column(unique=false, name = "PURCHASE_DATE")
+    private LocalDate purchaseDate;
 
-    public PurchaseEntity(String product, String quantity, String purchaseDate) {
+//    @Column(name = "ORDER_DATE", nullable = true)
+//    private LocalDate orderDate;
+
+
+    public PurchaseEntity(String product, long quantity) {
         Product = product;
         Quantity = quantity;
-        PurchaseDate = purchaseDate;
+        this.purchaseDate = LocalDate.now();
+//        this.purchaseDate = purchaseDate;
+
     }
 
     public PurchaseEntity(long ID) {
@@ -64,21 +73,19 @@ public class PurchaseEntity {
         Product = product;
     }
 
-    public String getQuantity() {
+    public long getQuantity() {
         return Quantity;
     }
 
-    public void setQuantity(String quantity) {
+    public void setQuantity(long quantity) {
         Quantity = quantity;
     }
 
-    public String getPurchaseDate() {
-        return PurchaseDate;
+    public LocalDate getPurchaseDate() {
+        return purchaseDate;
     }
 
-    public void setPurchaseDate(String purchaseDate) {
-        PurchaseDate = purchaseDate;
+    public void setPurchaseDate(LocalDate purchaseDate) {
+        this.purchaseDate = purchaseDate;
     }
-
-
 }
