@@ -4,7 +4,6 @@ package io.github.Oleiva.dto.pojo;
  * Created by Oleh Ivashko on 28.05.2016.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -15,10 +14,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Generated;
-
 @JsonInclude(JsonInclude.Include.NON_NULL)
-//@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
         "product",
         "count",
@@ -29,10 +25,10 @@ public class ProductPojo {
     private String product;
 
     @JsonProperty("count")
-    private Integer count;
+    private long count;
 
     @JsonProperty("sum")
-    private Integer sum;
+    private long sum;
 
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -48,22 +44,22 @@ public class ProductPojo {
     }
 
     @JsonProperty("count")
-    public Integer getCount() {
+    public long getCount() {
         return count;
     }
 
     @JsonProperty("count")
-    public void setCount(Integer count) {
+    public void setCount(long count) {
         this.count = count;
     }
 
     @JsonProperty("sum")
-    public Integer getSum() {
+    public long getSum() {
         return sum;
     }
 
     @JsonProperty("sum")
-    public void setSum(Integer sum) {
+    public void setSum(long sum) {
         this.sum = sum;
     }
 

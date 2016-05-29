@@ -1,5 +1,15 @@
 package io.github.Oleiva.entity;
 
+//import java.time.LocalDate;
+//import java.time.LocalDateTime;
+//import java.util.Date;
+
+import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.sql.Timestamp;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -9,6 +19,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import static javax.xml.datatype.DatatypeConstants.DATETIME;
 
 
 /**
@@ -34,25 +46,26 @@ public class PurchaseEntity {
     @Column(unique=false, name = "QUANTITY")
     private long Quantity;
 
+//    @DateTimeFormat
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+
 //    @NotNull
-    @Column(unique=false, name = "PURCHASE_DATE")
-    private LocalDate purchaseDate;
+//    private LocalDate localDate;
 
-//    @Column(name = "ORDER_DATE", nullable = true)
-//    private LocalDate orderDate;
+    @CreatedDate
+    private LocalDate localDate;
+
+//   private LocalDate local = LocalDate.now();
 
 
-    public PurchaseEntity(String product, long quantity, LocalDate purchaseDate) {
+    public PurchaseEntity(String product, long quantity, LocalDate localDate) {
         Product = product;
         Quantity = quantity;
-        this.purchaseDate = purchaseDate;
-    }
-
-    public PurchaseEntity(long ID) {
-        this.ID = ID;
+        this.localDate = localDate;
     }
 
     public PurchaseEntity() {
+
     }
 
     public long getID() {
@@ -79,11 +92,11 @@ public class PurchaseEntity {
         Quantity = quantity;
     }
 
-    public LocalDate getPurchaseDate() {
-        return purchaseDate;
+    public LocalDate getLocalDate() {
+        return localDate;
     }
 
-    public void setPurchaseDate(LocalDate purchaseDate) {
-        this.purchaseDate = purchaseDate;
+    public void setLocalDate(LocalDate localDate) {
+        this.localDate = localDate;
     }
 }

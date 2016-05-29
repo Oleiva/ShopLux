@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import io.github.Oleiva.dto.pojo.ProductListPojo;
 import io.github.Oleiva.dto.pojo.ResponsePojo;
 import io.github.Oleiva.jpa.ProductJpa;
-import io.github.Oleiva.services.ProductService;
+import io.github.Oleiva.jpa.PurchaseJpa;
+import io.github.Oleiva.services.PurchaseService;
 
 /**
  * Created by Oleh Ivashko on 27.05.2016.
@@ -28,7 +29,10 @@ public class ShopController {
     ProductJpa productJpa;
 
     @Autowired
-    ProductService productService;
+    PurchaseJpa purchaseJpa;
+
+    @Autowired
+    PurchaseService productService;
 
     public static String success = "# Products have been successfully added";
     public static String error = "# Error with adding a List of Products";
@@ -39,8 +43,8 @@ public class ShopController {
 
         try {
             productService.addListOfProduct(productListPojo);
-                logger.info(productListPojo.getData());
-                logger.info(productListPojo.getData().size());
+//                logger.info(productListPojo.getData());
+//                logger.info(productListPojo.getData().size());
             responsePojo.setMessage(success);
                 logger.info(success);
 
@@ -53,14 +57,29 @@ public class ShopController {
     }
 
 
-    @RequestMapping(value = "/viev/{monthsNum}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getItem/{monthsNum}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponsePojo vievAll(@PathVariable(value = "monthsNum") String product,
-//                                           @PathVariable(value = "count") long count,
-//                                           @PathVariable(value = "sum")   long sum,
-                                ResponsePojo responsePojo) {
+    public ProductListPojo vievForMonth(@PathVariable(value = "monthsNum")   long monthsNum,
+                                        ResponsePojo responsePojo){
+        ProductListPojo productListPojo = new ProductListPojo();
 
-        return responsePojo;
+        productListPojo = productService.vievForMonth(monthsNum);
+//        try { productListPojo = productService.vievForMonth(monthsNum);
+//            logger.info("OK adding ");
+//
+//        }catch (Exception ex){
+//            logger.isTraceEnabled();
+//            logger.info("Bad adding");
+//        }
+//
+
+     return productListPojo;
+
     }
+
+
+
+
+
 
 }
