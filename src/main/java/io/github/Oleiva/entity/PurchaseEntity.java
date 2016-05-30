@@ -35,9 +35,6 @@ public class PurchaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long ID;
 
-//    Product, Quantity, PurchaseJpa Date
-
-
     @NotNull
     @Column(unique=false, name = "PRODUCT")
     private String Product;

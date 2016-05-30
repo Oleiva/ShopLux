@@ -39,14 +39,14 @@ public class ShopController {
 
     @RequestMapping(value = "/addItem", method = RequestMethod.POST)
     @ResponseBody
-    public ResponsePojo addItemToNewOrder(@RequestBody ProductListPojo productListPojo,ResponsePojo responsePojo) {
+    public ResponsePojo addItemToNewOrder(@RequestBody ProductListPojo productListPojo, ResponsePojo responsePojo) {
 
         try {
             productService.addListOfProduct(productListPojo);
-//                logger.info(productListPojo.getData());
-//                logger.info(productListPojo.getData().size());
+            logger.info(productListPojo.getData());
+            logger.info(productListPojo.getData().size());
             responsePojo.setMessage(success);
-                logger.info(success);
+            logger.info(success);
 
         } catch (Exception ex) {
             logger.isTraceEnabled();
@@ -59,27 +59,22 @@ public class ShopController {
 
     @RequestMapping(value = "/getItem/{monthsNum}", method = RequestMethod.GET)
     @ResponseBody
-    public ProductListPojo vievForMonth(@PathVariable(value = "monthsNum")   long monthsNum,
-                                        ResponsePojo responsePojo){
+    public ProductListPojo vievForMonth(@PathVariable(value = "monthsNum") long monthsNum,
+                                        ResponsePojo responsePojo) {
         ProductListPojo productListPojo = new ProductListPojo();
 
-        productListPojo = productService.vievForMonth(monthsNum);
-//        try { productListPojo = productService.vievForMonth(monthsNum);
-//            logger.info("OK adding ");
-//
-//        }catch (Exception ex){
-//            logger.isTraceEnabled();
-//            logger.info("Bad adding");
-//        }
-//
+//        productListPojo = productService.vievForMonth(monthsNum);
+        try {
+            productListPojo = productService.vievForMonth(monthsNum);
+            logger.info("OK adding ");
 
-     return productListPojo;
+        } catch (Exception ex) {
+            logger.isTraceEnabled();
+            logger.info("Bad adding");
+        }
+
+        return productListPojo;
 
     }
-
-
-
-
-
 
 }

@@ -11,7 +11,9 @@ import java.util.List;
 
 import io.github.Oleiva.dto.pojo.ProductListPojo;
 import io.github.Oleiva.dto.pojo.ProductPojo;
+import io.github.Oleiva.entity.ProductEntity;
 import io.github.Oleiva.entity.PurchaseEntity;
+import io.github.Oleiva.jpa.ProductJpa;
 import io.github.Oleiva.jpa.PurchaseJpa;
 
 /**
@@ -26,6 +28,9 @@ public class ServiceImpl implements PurchaseService, ProductService {
     @Autowired
     PurchaseJpa purchaseJpa;
 
+    @Autowired
+    ProductJpa productJpa;
+
 
     @Override
     public void addListOfProduct(ProductListPojo productListPojo) {
@@ -33,26 +38,27 @@ public class ServiceImpl implements PurchaseService, ProductService {
 
         productPojoList.forEach(productPojo -> {
             PurchaseEntity purchaseEntity = new PurchaseEntity();
-            purchaseEntity.setProduct(productPojo.getProduct());
-            purchaseEntity.setQuantity(productPojo.getCount());
+            ProductEntity productEntity = new ProductEntity();
+
+            String product = productPojo.getProduct();
+            long count = productPojo.getCount();
+            long price = productPojo.getSum() / count;
+
+            purchaseEntity.setProduct(product);
+            purchaseEntity.setQuantity(count);
             purchaseEntity.setLocalDate(LocalDate.now());
 
-/////////////////////////
-//            Date date = new Date();
-//            date.setTime(LocalDate.now());
-//            System.out.println(date);
-//            purchaseEntity.setPurchaseDate(date);
-/////
-
-//            LocalDate localDate = LocalDate.now();
-//            Date NPeriod = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
-//            purchaseEntity.setPurchaseDate(NPeriod);
-//            purchaseEntity.setDateTime(DateTime.now());
-
-
+            try {
+                if (productJpa.findByName(product).isEmpty()) {
+                    productEntity.setName(product);
+                    productEntity.setPRICE(price);
+                }
+            } catch (Exception ex) {
+                logger.isTraceEnabled();
+            }
 
             purchaseJpa.saveAndFlush(purchaseEntity);
+            productJpa.saveAndFlush(productEntity);
 
             System.out.print(purchaseEntity);
         });
@@ -69,59 +75,44 @@ public class ServiceImpl implements PurchaseService, ProductService {
         List<PurchaseEntity> purchaseEntityList = purchaseJpa.findAll();
         ProductListPojo productListPojo = new ProductListPojo();
         ProductPojo productPojo = new ProductPojo();
+
         List<ProductPojo> productPojoArrayList = new ArrayList<>();
+        purchaseEntityList.forEach(purchaseEntity -> {
 
-        purchaseEntityList.forEach(purchaseEntity ->{
-
-//            TODO
             LocalDate dateDBDate = purchaseEntity.getLocalDate();
             LocalDate soughtDate = LocalDate.now().minusMonths(month);
 
             System.out.println(purchaseEntity.getLocalDate());
 
 
+            if (dateDBDate.isAfter(soughtDate) == true) {
 
-            if (dateDBDate.isAfter(soughtDate) == true ){
+                String product = purchaseEntity.getProduct();
+                long count = purchaseEntity.getQuantity();
 
+                productPojo.setProduct(product);
+                productPojo.setCount(count);
+                productPojo.setSum(getPrice(product) * count);
 
-
-                productPojo.setProduct(purchaseEntity.getProduct());
-                productPojo.setCount(purchaseEntity.getQuantity());
-                productPojo.setSum(getSum());
-                logger.info("# Product " + purchaseEntity.getProduct());
-                logger.info("# Count " + purchaseEntity.getQuantity());
-                logger.info("# Sum " + getSum());
+                logger.info("# Product " + product);
+                logger.info("# Count " + count);
 
                 productPojoArrayList.add(productPojo);
-//                ProductListPojo productListPojo = new ProductListPojo();
-
-
+                logger.info("productPojo" + productPojo);
             }
-
-            productListPojo.setData(productPojoArrayList);
-
         });
 
-
-
+        productListPojo.setData(productPojoArrayList);
         return productListPojo;
-
-
-
-//        List<PurchaseEntity> listdd = purchaseJpa.findDataForLastNMonth(month);
-//        System.out.println(listdd);
-
-//        return null;
     }
 
+    @Override
+    public long getPrice(String name) {
+        List<ProductEntity> productEntities = (List<ProductEntity>) productJpa.findByName(name);
+        long price = productEntities.get(0).getPRICE();
 
-    public long getPrice(){
-        return 100;
+        System.out.println("# Price " + price);
+        return price;
     }
-
-    public long getSum(){
-        return 100;
-    }
-
 
 }

@@ -23,15 +23,15 @@ public class ProductEntity {
 
     @NotNull
     @Column(unique=true, name = "NAME")
-    private String NAME;
+    private String name;
 
     @NotNull
     @Column(unique=false, name = "PRICE")
-    private String PRICE;
+    private long PRICE;
 
 
-    public ProductEntity(String NAME, String PRICE) {
-        this.NAME = NAME;
+    public ProductEntity(String name, long PRICE) {
+        this.name = name;
         this.PRICE = PRICE;
     }
 
@@ -47,19 +47,19 @@ public class ProductEntity {
         this.ID = ID;
     }
 
-    public String getNAME() {
-        return NAME;
+    public String getName() {
+        return name;
     }
 
-    public void setNAME(String NAME) {
-        this.NAME = NAME;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getPRICE() {
+    public long getPRICE() {
         return PRICE;
     }
 
-    public void setPRICE(String PRICE) {
+    public void setPRICE(long PRICE) {
         this.PRICE = PRICE;
     }
 

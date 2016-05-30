@@ -7,7 +7,6 @@ import io.github.Oleiva.dto.pojo.ProductListPojo;
  */
 
 public interface PurchaseService {
-
     void addListOfProduct(ProductListPojo productListPojo);
 
     ProductListPojo vievForMonth(long month);
