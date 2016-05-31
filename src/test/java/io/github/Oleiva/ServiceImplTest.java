@@ -59,10 +59,5 @@ public class ServiceImplTest {
 
     }
 
-    @Test
-    public void getSum() throws Exception {
-//    productService.getSum();
-//        verify(productService,times(0));
-    }
 
 }
